@@ -56,17 +56,48 @@ function start() {
                         }
                     }
 
+                }
+
+            ]).then(function (ans) {
+
+                var whatToBuy = (ans.id) - 1;
+                var howMuchToBuy = parseInt(ans.quantity);
+                var grandTotal = parseFloat(((res[whatToBuy].price) * howMuchToBuy).toFixed(2));
+
+                //Check if quantity is sufficient
+
+                if (res[whatToBuy].stock_quantity >= howMuchToBuy) {
+                    //after purchase updates quantity in Products Table
+                    connection.query("UPDATE products SET ? WHERE ?", [
+                        { stock_quantity: (res[whatToBuy].stock_quantity - howMuchToBuy) },
+                        { item_id: ans.id }
+
+
+                    ], function (err, res) {
+                        if (err) throw err;
+                        console.log("Congratulations! Your Grand Total is $" + grandTotal.toFixed(2) + ". Your item(s) will arrive to you in 3-5 business days. Thank You for shopping with Bamazon");
+
+
+                    });
+
+
+
+
+
 
 
 
                 }
+            }
 
 
 
 
 
 
-            ])
+
+
+            )
 
 
         })
