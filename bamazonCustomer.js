@@ -43,7 +43,24 @@ function start() {
                         return false;
 
                     }
+                },
+                {
+                    type: "input",
+                    name: "quantity",
+                    message: "How many units of the product would you like to buy",
+                    validate: function (value) {
+                        if (isNaN(value)) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+
+
+
+
                 }
+
 
 
 
