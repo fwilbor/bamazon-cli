@@ -1,4 +1,5 @@
 var mysql = require("mysql");
+var inquirer = require("inquirer");
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -19,7 +20,7 @@ function start() {
         console.log("connected as id " + connection.threadId);
         connection.query("SELECT * FROM products", function (err, res) {
             if (err) throw err;
-            console.log(res)
+            // console.log(res)
 
             console.log('_.~"~._.~"~._.~Welcome to BAMazon~._.~"~._.~"~._')
             console.log('----------------------------------------------------------------------------------------------------')
@@ -28,6 +29,27 @@ function start() {
                 console.log("ID: " + res[i].item_id + " | " + "Product: " + res[i].product_name + " | " + "Department: " + res[i].department_name + " | " + "Price: " + res[i].price + " | " + "QTY: " + res[i].stock_quantity);
                 console.log('--------------------------------------------------------------------------------------------------')
             }
+
+            console.log(' ');
+            inquirer.prompt([
+                {
+                    type: "input",
+                    name: "id",
+                    message: "What is the ID of the product you would like to buy?",
+                    validate: function (value) {
+                        if (isNaN(value) === false) {
+                            return true;
+                        }
+                        return false;
+
+                    }
+                }
+
+
+
+
+
+            ])
 
 
         })
