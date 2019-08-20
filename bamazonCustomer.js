@@ -17,7 +17,6 @@ function start() {
     connection.connect(function (err) {
         if (err) throw err;
         console.log("connected as id " + connection.threadId);
-        connection.end();
         connection.query("SELECT * FROM products", function (err, res) {
             if (err) throw err;
             console.log(res)
@@ -26,7 +25,7 @@ function start() {
             console.log('----------------------------------------------------------------------------------------------------')
 
             for (var i = 0; i < res.length; i++) {
-                console.log("ID: " + res[i].ItemID + " | " + "Product: " + res[i].ProductName + " | " + "Department: " + res[i].DepartmentName + " | " + "Price: " + res[i].Price + " | " + "QTY: " + res[i].StockQuantity);
+                console.log("ID: " + res[i].item_id + " | " + "Product: " + res[i].product_name + " | " + "Department: " + res[i].department_name + " | " + "Price: " + res[i].price + " | " + "QTY: " + res[i].stock_quantity);
                 console.log('--------------------------------------------------------------------------------------------------')
             }
 
@@ -36,3 +35,5 @@ function start() {
     });
 
 }
+start();
+
