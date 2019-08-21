@@ -107,5 +107,80 @@ function lowInventory() {
 
 }
 
-//
+// addToInventory function Displays a prompt that will let the manager "add more" of any item currently in the store.
+
+function addToInventory() {
+
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> Adding to Inventory <<<<<<<<<<<<<<<<<<<<<<<<<<");
+
+    connection.query("SELECT * FROM products", function (err, res) {
+
+        if (err) throw err;
+        var newArray = [];
+        //push each item into newArray
+        for (var i = 0; i < res.length; i++) {
+            newArray.push(res[i].product_name);
+        }
+
+        inquirer.prompt([
+            {
+
+                type: "list",
+                name: "product",
+                choices: newArray,
+                message: "Which item would you to Add inventory?"
+
+
+
+            },
+
+            {
+                type: "input",
+                name: "quantity",
+                message: "How many Units would you like to add?",
+                validate: function (value) {
+                    if (isNaN(value) === false) { return true; }
+                    else { return false; }
+
+                }
+
+
+
+
+
+            }
+
+        ]).then(function (ans) {
+            var currentQuantity;
+            for (var i = 0; i < res.length; i++) {
+                if (res[i].product_name === ans.product) {
+                    currentQuantity = res[i].stock_quantity;
+                }
+
+            }
+
+            connection.query("UPDATE products SET ? WHERE ?", [
+                { stock_quantity: currentQuantity + parseInt(ans.quantity) },
+                { product_name: ans.product }
+
+
+
+            ], function (err, res) {
+                if (err) throw err;
+                console.log("The Quanity was updated.");
+                start();
+
+            });
+
+
+
+        })
+
+
+
+    });
+
+
+
+}
 
