@@ -13,50 +13,68 @@ var connection = mysql.createConnection({
     // Your password
     password: "Dramatiks33#",
     database: "bamazonDB"
-});
+})
 
-connection.connect(function (err) {
-    if (err) throw err;
-});
 
-inquirer
-    .prompt([
 
-        {
-            type: "list",
-            message: "What would you like to do?",
-            choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"],
-            name: "action"
-        }
-    ]).then(function (ans) {
-        // Function for determining which command is executed
-        var pick = function (caseData, functionData) {
-            switch (caseData) {
+function start() {
+    inquirer
+        .prompt([
+
+            {
+                type: "list",
+                message: "What would you like to do?",
+                choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"],
+                name: "action"
+            }
+        ]).then(function (ans) {
+            // Function for determining which command is executed
+
+            switch (ans.action) {
                 case "View Products for Sale":
-                    // getProdcuts(functionData);
-                    viewProducts(functionData);
-                    console.log('');
+                    // getProdcuts();
+                    viewProducts();
                     break;
                 case "View Low Inventory":
-                    // lowInventory(functionData);
-                    lowInventory(functionData);
-                    console.log('')
+                    // lowInventory();
+                    lowInventory();
                     break;
                 case "Add to Inventory":
-                    // addToInventory(functionData);
-                    addToInventory(functionData);
-                    console.log('');
+                    // addToInventory();
+                    addToInventory();
                     break;
                 case "Add New Product":
-                    // addNewProduct(functionData);
-                    addNewProduct(functionData);
-                    console.log('');
+                    // addNewProduct();
+                    addNewProduct();
                     break;
                 default:
                     console.log("Please make a selection");
             }
-        };
-    })
+        });
+}
+
+//views all inventory
+
+function viewProducts() {
+
+    console.log(">>>>>>>>>>>>>>>>>>Viewing Products<<<<<<<<<<<<<<<<<<<<");
+
+    connection.query("SELECT * FROM products", function (err, res) {
+        if (err) throw err;
+        console.log("-----------------------------------------------------------------------")
+
+        for (var i = 0; i < res.length; i++) {
+
+            console.log("ID: " + res[i].item_id + " | " + "Product: " + res[i].product_name + " | " + "Department: " + res[i].department_name + " | " + "Price: " + res[i].price + " | " + "QTY: " + res[i].stock_quantity);
+            console.log('--------------------------------------------------------------------------------------------------')
+        }
+
+        start();
+
+    });
+
+
+}
 
 
 
