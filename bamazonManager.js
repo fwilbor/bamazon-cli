@@ -186,60 +186,62 @@ function addToInventory() {
 
 //allows manager to add a completely new product to store
 function addNewProduct() {
+
     console.log(">>>>>>Adding New Product<<<<<<");
-    var newProduct = [];
 
-    //add to Products Table
-    connection.query("SELECT * FROM products", function (err, res) {
-        if (err) throw err;
-        for (var i = 0; i < res.length; i++) {
-            newProduct.push(res[i].product_name);
-        }
-    })
+    inquirer.prompt([
 
-    inquirer.prompt([{
-        type: "input",
-        name: "product",
-        message: "Product: ",
-        validate: function (value) {
-            if (value) { return true; }
-            else { return false; }
-        }
-    }, {
-        type: "list",
-        name: "department",
-        message: "Department: ",
-        choices: deptNames
-    }, {
-        type: "input",
-        name: "price",
-        message: "Price: ",
-        validate: function (value) {
-            if (isNaN(value) === false) { return true; }
-            else { return false; }
-        }
-    }, {
-        type: "input",
-        name: "quantity",
-        message: "Quantity: ",
-        validate: function (value) {
-            if (isNaN(value) == false) { return true; }
-            else { return false; }
-        }
-    }]).then(function (ans) {
-        connection.query("INSERT INTO products SET ?", {
-            product_name: ans.product,
-            department_name: ans.department,
-            price: ans.price,
-            stock_quantity: ans.quantity
-        }, function (err, res) {
-            if (err) throw err;
-            console.log('Another item was added to the store.');
-        })
-        start();
+        {
+            name: "ID",
+            type: "input",
+            message: "Add ID Number"
+
+        },
+        {
+            name: "Name",
+            type: "input",
+            message: "What is the name of the product you would like to stock?"
+        },
+        {
+            name: "Price",
+            type: "input",
+            message: "What is the price for the item?"
+        },
+
+        {
+            name: "Department",
+            type: "input",
+            message: "What is the department name for the product?"
+        },
+
+        {
+            name: "Quantity",
+            type: "input",
+            message: "What is the quantity you would like to add?"
+        },
+
+    ]).then(function (ans) {
+
+        //connect to database, insert user input into correct columns
+        connection.query("INSERT INTO products SET?", {
+            product_name: ans.Name,
+            price: ans.Price,
+            department_name: ans.Department,
+            stock_quantity: ans.Quantity
+        }, function (err, res) { });
+        viewProducts();
+
+
+
     });
+
 }
 
-start();
+
+
+
+
+
+
 
 
