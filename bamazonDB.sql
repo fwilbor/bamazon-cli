@@ -45,3 +45,11 @@ VALUES ("Mrs. Meyer’s Liquid Hand Soap Refill", 4.75, "Beauty & Personal Care"
 
 
 
+USE bamazonDB;
+
+CREATE TABLE departments (
+    department_id INTEGER(11) NOT NULL AUTO_INCREMENT,
+    department_name VARCHAR(40) NOT NULL,
+    over_head_cost DECIMAL (10,2) NOT NULL,
+     PRIMARY KEY (department_id)
+);
