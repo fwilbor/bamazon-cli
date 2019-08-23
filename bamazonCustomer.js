@@ -78,7 +78,10 @@ function start() {
                         console.log("Congratulations! Your Grand Total is $" + grandTotal.toFixed(2) + ". Your item(s) will arrive to you in 3-5 business days. Thank You for shopping with Bamazon");
 
 
+
+
                     });
+
 
 
 
